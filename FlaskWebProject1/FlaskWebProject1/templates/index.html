@@ -11,7 +11,7 @@
        
         
         <button class="form-control btn btn-primary" type="button" id="submitComplaint">Submit Complaint</button>
-        <div style="display:none"class="alert alert-success" role="alert" id="alert">
+        <div style="display:none;margin-bottom:0;"class="alert alert-success" role="alert" id="alert">
             <strong>Your complaint has been filed</strong>
         </div>
     </div>
@@ -36,24 +36,25 @@
                         $('#alert').show();
                         console.log(data)
                         var result = JSON.parse(data);
-                        $("#cr").append('<table class = table>');
-                        $("#cr").append("<thead><tr><th>Sentences</th><th>score</th></tr></thead>");
-                        $("#cr").append('<tbody>');
-
+                        var table = $("<table/>").addClass("table").addClass("table-hover");
+                        var thead = $("<thead>/").append(
+                            $("<tr>").append($("<th/>").text("Sentences")).append($("<th/>").text("Score"))
+                        );
+                var tbody = $("<tbody/>");
                         result.sentences.forEach(function (item, index) {
                             if (item.sentiment.score < -0.199) {
-                                $("#cr").append('<tr><td bgcolor = "#FF0000"><font color= "white">' + item.text.content + '</font></td><td bgcolor = "#FF0000"><font color = "white"> '
-                                    + item.sentiment.score + "</font></td></tr>");
-
-
-
+                                tbody.append($("<tr/>").append($("<td/>").text(item.text.content))
+                                    .append($("<td/>").text(item.sentiment.score)).addClass("danger"));
                             }
                             else {
-                                $("#cr").append('<tr><td>' + item.text.content + '</td><td>'
-                                    + item.sentiment.score + "</td></tr>")
+                                tbody.append($("<tr/>").append($("<td/>").text(item.text.content))
+                                    .append($("<td/>").text(item.sentiment.score)).addClass("success"))
                             }
-                        });//end for each
-                        $("#cr").append("</tbody></table>")
+                });//end for each
+                        table.append(thead)
+                        table.append(tbody)
+                        $("#cr").append(table)
+
                     }
                 })
                 console.log(ran4num)
