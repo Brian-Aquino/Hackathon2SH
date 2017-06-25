@@ -1,0 +1,12 @@
+image
+faces
+x
+imagePath
+h
+gray
+faceCascade
+cascPath
+y
+cv2
+sys
+w

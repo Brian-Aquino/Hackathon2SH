@@ -1,0 +1,11 @@
+ret
+cap
+y
+frame
+h
+gray
+faceCascade
+faces
+cv2
+x
+w

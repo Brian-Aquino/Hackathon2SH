@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+     <div class="row">
+    <div class="col-md-12">
+        
+            <textarea id="context" style="min-width:100%; min-height:500px" class="form-control">
+
+</textarea>
+       
+        
+        <button class="form-control btn btn-primary" type="button" id="submitComplaint">Submit Complaint</button>
+        <div style="display:none"class="alert alert-success" role="alert" id="alert">
+            <strong>Your complaint has been filed</strong>
+        </div>
+    </div>
+     </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#submitComplaint').click(function (e) {
+            e.preventDefault();
+            var ran4num = Math.floor(1000 + Math.random() * 9000)
+            $.ajax({
+                url: "/submit",
+                type: "GET",
+                data: { "text": $("#context").val() },
+                success: function (data) {
+                    $("#alert").css({ display: "" })
+                    console.log(data)
+                     }
+                    })
+            console.log(ran4num)
+            $('#alert').css({display:""})
+        })
+    })</script>
+{% endblock %}
