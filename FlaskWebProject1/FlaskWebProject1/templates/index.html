@@ -17,23 +17,53 @@
     </div>
      </div>
 </div>
+<div id="outer" style="width:100%">
+    <div class="container" id="cr">
+        </div>
+</div>
+    <script>
+        $(document).ready(function () {
+            $('#submitComplaint').click(function (e) {
+                e.preventDefault();
+                var ran4num = Math.floor(1000 + Math.random() * 9000)
+                $.ajax({
+                    url: "/submit",
+                    type: "GET",
+                    data: { "text": $("#context").val() },
+                    success: function (data) {
+                        $("#alert").css({ display: "" })
+                        $('#alert').append('<strong>Case number: ' + ran4num + '</strong>')
+                        $('#alert').show();
+                        console.log(data)
+                        var result = JSON.parse(data);
+                        $("#cr").append('<table class = table>');
+                        $("#cr").append("<thead><tr><th>Sentences</th><th>score</th></tr></thead>");
+                        $("#cr").append('<tbody>');
 
-<script>
-    $(document).ready(function () {
-        $('#submitComplaint').click(function (e) {
-            e.preventDefault();
-            var ran4num = Math.floor(1000 + Math.random() * 9000)
-            $.ajax({
-                url: "/submit",
-                type: "GET",
-                data: { "text": $("#context").val() },
-                success: function (data) {
-                    $("#alert").css({ display: "" })
-                    console.log(data)
-                     }
-                    })
-            console.log(ran4num)
-            $('#alert').css({display:""})
-        })
-    })</script>
+                        result.sentences.forEach(function (item, index) {
+                            if (item.sentiment.score < -0.199) {
+                                $("#cr").append('<tr><td bgcolor = "#FF0000"><font color= "white">' + item.text.content + '</font></td><td bgcolor = "#FF0000"><font color = "white"> '
+                                    + item.sentiment.score + "</font></td></tr>");
+
+
+
+                            }
+                            else {
+                                $("#cr").append('<tr><td>' + item.text.content + '</td><td>'
+                                    + item.sentiment.score + "</td></tr>")
+                            }
+                        });//end for each
+                        $("#cr").append("</tbody></table>")
+                    }
+                })
+                console.log(ran4num)
+                $('#alert').css({ display: "" })
+            })
+        })</script>
+  <style>
+        #cr {
+            display: table;
+            margin: 0 auto;
+        }
+    </style>
 {% endblock %}
